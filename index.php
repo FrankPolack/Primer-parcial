@@ -18,9 +18,17 @@
  <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
  <link rel="icon" href="http://www.octavio.com.ar/favicon.ico">
-<script type="text/javascript" src="js/funcionAjax.js"></script>
-<script type="text/javascript" src="js/funcionLogin.js"></script>
-<script type="text/javascript" src="js/funcionABM.js"></script>
+<script type="text/javascript" src="js/funcionesAjax.js"></script>
+<script type="text/javascript" src="js/funcionesLogin.js"></script>
+<script type="text/javascript" src="js/funcionesABM.js"></script>
+
+
+<script type="text/javascript" src="js/funcionesMapa.js"></script>
+<script type="text/javascript" src="js/geolocalizacionCommon.js"></script>
+<script type="text/javascript" src="js/moduloGeolocalizacion.js"></script>
+
+<script  src = "https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" ></script> 
+<script  src = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" ></script>
 
 </head>
 
@@ -37,9 +45,10 @@
 
 		<nav>
 			<ul id="main-nav" class="clearfix">
-				<li><a onclick="MostarIngreso()" class="btn">Ingreso</a></li>
-				<li><a onclick="Mostrar('MostrarVotacion')" class="btn">Ir a VOTACIÓN</a> </li>
-				<li><a onclick="Mostrar('MostarListado')" class="btn">Listado de Votaciones</a> </li>
+				
+				<li><a onclick="Mostrar('MostrarIngreso')" class="btn">Ingreso</a></li>
+				<li><a onclick="Mostrar('MostrarFrmVoto')" class="btn">Ir a VOTACIÓN</a> </li>
+				<li><a onclick="Mostrar('MostrarListado')" class="btn">Listado de Votaciones</a> </li>
 				
 			</ul>
 			<!-- /#main-nav --> 
@@ -57,7 +66,7 @@
 		<article  class="post clearfix">
 
 			<header  >
-				<h1 class="post-title"><a href="#">Polack.Frank</a></h1>
+				<h1 class="post-title"><a href="#">Frank.Polack</a></h1>
 				<p class="post-meta"><time class="post-date" datetime="2011-05-08" pubdate>2015</time> <em>en</em> <a href="#">UTN FRA</a></p>
 			</header>
 			<hr>
@@ -105,4 +114,5 @@
 <!-- /#pagewrap -->
 
 </body>
+
 </html>

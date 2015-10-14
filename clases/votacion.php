@@ -1,74 +1,67 @@
 <?php
-
 class votacion
 {
+	public $id;
 	public $dni;
- 	public $provincia;
-  	public $presidente;
-  	public $sexo;
-  	public $id;
+	public $provincia;
+	public $presidente;
+	public $sexo;
+	public $direccion;
+	public $localidad;
 
-	public static function TraerVotos() 
+	public static function TraerVotos()
 	{
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("CALL Listado()"); //select * from votos
-			$consulta->execute();			
-			return $consulta->fetchAll(PDO::FETCH_CLASS, "votacion");		
+		$objetoAccesoDatos = AccesoDatos::dameUnObjetoAcceso();
+		$consulta=$objetoAccesoDatos->RetornarConsulta("CALL TraerVotos");
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_CLASS,'votacion'); 
 	}
 
-	 public function InsertarVoto() 
-	 {
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta//("CALL Alta()");
-															("INSERT into votos (dni,provincia,presidente,sexo)
-															values('$this->dni','$this->provincia','$this->presidente','$this->sexo')");
-			$consulta->execute();
-			return $objetoAccesoDato->RetornarUltimoIdInsertado();
-	 }
-
-  	public function BorrarVoto() //$id
+    public function InsertarVoto()
 	{
-	 	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("DELETE from votos WHERE id=:id");//("CALL Baja()");	
-			$consulta->bindValue(':id',$this->id, PDO::PARAM_INT);		
-			$consulta->execute();
-			return $consulta->rowCount();
+		$objetoAccesoDatos = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDatos->RetornarConsulta("CALL InsertarVoto(:paramDni,:paramProv, :paramPresi, :paramSexo, :paramLoca,:paramDire )");				
+		
+		$consulta->bindValue(':paramDni', $this->dni, PDO::PARAM_STR);
+		$consulta->bindValue(':paramSexo', $this->sexo, PDO::PARAM_STR);
+		$consulta->bindValue(':paramProv', $this->provincia, PDO::PARAM_STR); //los parametros tienen q estar siempre en el mismo orden q la bd sino no anda bien
+		$consulta->bindValue(':paramPresi', $this->presidente, PDO::PARAM_STR);
+		$consulta->bindValue(':paramDire', $this->direccion, PDO::PARAM_STR);
+		$consulta->bindValue(':paramLoca', $this->localidad, PDO::PARAM_STR);
+		$consulta->execute();
 	}
-	// {
- //      $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso("CALL Baja(?)");
-      
- //      $consulta = $objetoAccesoDato->RetornarConsulta();
- //      if ($consulta->execute(array($id)))
- //      {
- //        return true;
- //      }else{
- //        return false;
- //      }
- //    }
 
 	public function ModificarVoto()
 	{
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("CALL Modificacion()");
-		 //  ( "UPDATE votos 
-			// set dni='$this->dni',
-			// provincia='$this->provincia',
-			// presidente='$this->presidente',
-			// sexo='$this->sexo'
-			// WHERE id='$this->id' "); 
-		return $consulta->execute();
+		$objetoAccesoDatos = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDatos->RetornarConsulta("CALL ModificarVoto(:paramProv,:paramPresi,:paramSexo,:paramId,:paramDni ,:paramDire, :paramLoca )");
+		
+		$consulta->bindValue(':paramProv', $this->provincia, PDO::PARAM_STR);
+		$consulta->bindValue(':paramPresi', $this->presidente, PDO::PARAM_STR);
+        $consulta->bindValue(':paramSexo', $this->sexo, PDO::PARAM_STR);
+		$consulta->bindValue(':paramId', $this->id, PDO::PARAM_INT);	
+		$consulta->bindValue(':paramDni', $this->dni, PDO::PARAM_STR);
+		$consulta->bindValue(':paramDire', $this->direccion, PDO::PARAM_STR);
+		$consulta->bindValue(':paramLoca', $this->localidad, PDO::PARAM_STR);
+		$consulta->execute();
 	}
 
-    public static function TraerUnVoto($id) 
+    public function BorrarVoto()
 	{
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("SELECT * from votos where id = $id");
-			$consulta->execute();				 
-			$votoBuscado= $consulta->fetchObject('votacion');
-			return $votoBuscado;			
+		$objetoAccesoDatos = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDatos->RetornarConsulta("CALL BorrarVoto(:paramId)");
+		$consulta->bindValue(':paramId', $this->id, PDO::PARAM_INT);				
+		$consulta->execute();
 	}
 
-	
+	public static function TraerUnVoto($id) 
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("CALL TraerVotoPorId($id)");//("SELECT * from voto where id = $id");
+		$consulta->execute();				 
+		$votoBuscado= $consulta->fetchObject('votacion');
+		return $votoBuscado;
+		//return $consulta->fetchObject('votacion');			
+	}
 }
-
 ?>

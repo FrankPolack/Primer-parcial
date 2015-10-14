@@ -1,7 +1,8 @@
 <?php
+ 
+ session_start();
 
-session_start();
+ $_SESSION["dni"]=$_POST["dni"];
 
-$_SESSION['dni']= $_POST['dni']; 
-
-?>
+ echo  "true";
+ ?>
